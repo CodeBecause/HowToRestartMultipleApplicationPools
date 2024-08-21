@@ -1,0 +1,22 @@
+# Define the list of application pool names
+$appPoolNames = @("AppPool1", "AppPool2", "AppPool3")
+
+# Import the WebAdministration module
+Import-Module WebAdministration
+
+# Iterate over each application pool name and restart it
+foreach ($appPoolName in $appPoolNames) {
+    try {
+        # Stop the application pool
+        Stop-WebAppPool -Name $appPoolName
+        Write-Output "Application pool '$appPoolName' stopped."
+
+        # Start the application pool
+        Start-WebAppPool -Name $appPoolName
+        Write-Output "Application pool '$appPoolName' started."
+    } catch {
+        Write-Output "Failed to restart application pool '$appPoolName': $_"
+    }
+}
+
+Write-Output "All specified application pools have been restarted."
